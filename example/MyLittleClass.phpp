@@ -1,0 +1,17 @@
+<?p
+
+class MyLittleClass {
+
+	private $readOnlyProperty
+
+	public run(callable $closure): callable {
+
+		return () => {
+			return $closure()
+		}
+
+	}
+
+}
+
+

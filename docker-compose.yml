@@ -1,0 +1,23 @@
+version: '2'
+services:
+
+    nginx:
+        image: nginx
+        container_name: pi-compiler-nginx
+        restart: always
+        working_dir: /var/docker
+
+        volumes:
+            - ./:/var/docker
+            - ./_docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+            - ./_docker/nginx/fastcgi-php.conf:/etc/nginx/snippets/fastcgi-php.conf:ro
+            - ./_docker/nginx/server.conf:/etc/nginx/conf.d/server.conf:ro
+
+            - ./_docker/nginx/certs/local.crt:/etc/nginx/certs/local.crt:ro
+            - ./_docker/nginx/certs/local.key:/etc/nginx/certs/local.key:ro
+
+    php:
+        image: pi-compiler-php
+        container_name: pi-compiler-php
+        volumes:
+            - ./:/var/docker

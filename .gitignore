@@ -1,0 +1,11 @@
+
+.idea
+.idea/*
+vendor
+composer.lock
+
+/**/injector.sh
+/_docker/tools
+
+.env.local
+docker.sh.log
