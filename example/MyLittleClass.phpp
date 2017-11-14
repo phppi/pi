@@ -2,16 +2,20 @@
 
 class MyLittleClass {
 
-	private $readOnlyProperty
+	private $myPrivatePropertyWithoutValue
+	private $myPrivateWithValue = 5 === 6
 
 	public run(callable $closure): callable {
-
 		return () => {
 			return $closure()
 		}
+	}
 
+	public process(int $id, string $name): int[] {
+		return [
+			'id' => $id,
+			'int' => time(),
+		];
 	}
 
 }
-
-

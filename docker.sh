@@ -95,6 +95,9 @@ elif [[ $ACTION == "run" ]]; then
 elif [[ $ACTION == 'console' ]]; then
 	docker exec -it $PROJECT_NAME-php php bin/pi-compiler.php $*
 
+elif [[ $ACTION == 'test' ]]; then
+	docker exec -it $PROJECT_NAME-php php vendor/bin/codecept $*
+
 elif [[ $ACTION == 'stan' ]]; then
 	docker exec -t $PROJECT_NAME-php composer dump -q
 	docker exec -t $PROJECT_NAME-php php vendor/bin/phpstan analyse src "$@" -c .phpstan.neon --ansi
@@ -112,9 +115,12 @@ elif [[ $ACTION == 'php' ]]; then
 elif [[ $ACTION == 'composer' ]]; then
 	docker exec -t $PROJECT_NAME-php composer $*
 
-elif [[ $ACTION == 'log' ]]; then
-	dockerCompose logs
-
+elif [[ $ACTION == 'run-test' ]]; then
+	while true
+	do
+		docker exec -it $PROJECT_NAME-php php vendor/bin/codecept run
+		sleep 3
+	done
 else
 
 	echo "Unknown action '$ACTION'"

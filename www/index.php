@@ -16,6 +16,18 @@ $phpTokens = token_get_all($source);
 
 dump($source);
 
+$phpTokens = array_filter($phpTokens, function ($item) {
+	return $item[0] !== T_WHITESPACE;
+});
+
+$phpTokens = array_values($phpTokens);
+
+$parser = new \PiCompiler\Parser();
+
+$parser->parse($phpTokens);
+
+die;
+
 
 const PI_OPEN_TAG = 21001;
 

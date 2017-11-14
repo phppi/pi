@@ -1,6 +1,6 @@
 
 .idea
-.idea/*
+idea/*
 vendor
 composer.lock
 
@@ -9,3 +9,6 @@ composer.lock
 
 .env.local
 docker.sh.log
+
+/tests/**/_output
+/tests/**/_generated
