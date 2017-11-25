@@ -1,0 +1,392 @@
+<?php declare(strict_types = 1);
+
+namespace PiCompiler;
+
+use PiCompiler\Token\Type\TypeInterface as TI;
+
+class MapValidNext
+{
+	public static function getMap(): array
+	{
+		return [
+			TI::OPEN_TAG                     => [],
+			TI::VARIABLE                     => [
+				TI::SYMBOL_ASSIGN,
+				TI::SYMBOL_PARENTHESES_OPEN,
+				TI::SYMBOL_PARENTHESES_CLOSE,
+				TI::KEYWORD_PUBLIC,
+				TI::KEYWORD_PROTECTED,
+				TI::KEYWORD_PRIVATE,
+				
+				TI::SYMBOL_COMMA,
+				
+				TI::OPERATOR_AND,
+				TI::OPERATOR_OR,
+				TI::OPERATOR_SPACESHIP,
+				TI::OPERATOR_IS_EQUAL,
+				TI::OPERATOR_IS_GREATER,
+				TI::OPERATOR_IS_GREATER_OR_EQUAL,
+				TI::OPERATOR_IS_LOWER,
+				TI::OPERATOR_IS_LOWER_OR_EQUAL,
+				TI::OPERATOR_IS_IDENTICAL,
+				TI::OPERATOR_IS_NOT_EQUAL,
+				TI::OPERATOR_IS_NOT_IDENTICAL,
+				TI::SYMBOL_OBJECT_OPERATOR,
+			],
+			TI::SPACE                        => [],
+			TI::STRING                       => [
+				TI::SYMBOL_BRACES_OPEN,
+				TI::SYMBOL_PARENTHESES_OPEN,
+			],
+			TI::NUMBER                       => [
+				TI::OPERATOR_AND,
+				TI::OPERATOR_OR,
+				TI::OPERATOR_SPACESHIP,
+				TI::OPERATOR_IS_EQUAL,
+				TI::OPERATOR_IS_GREATER,
+				TI::OPERATOR_IS_GREATER_OR_EQUAL,
+				TI::OPERATOR_IS_LOWER,
+				TI::OPERATOR_IS_LOWER_OR_EQUAL,
+				TI::OPERATOR_IS_IDENTICAL,
+				TI::OPERATOR_IS_NOT_EQUAL,
+				TI::OPERATOR_IS_NOT_IDENTICAL,
+				TI::KEYWORD_PUBLIC,
+				TI::KEYWORD_PROTECTED,
+				TI::KEYWORD_PRIVATE,
+				TI::SYMBOL_OBJECT_OPERATOR,
+				
+				TI::VARIABLE,
+				TI::VALUE_TRUE,
+				TI::VALUE_FALSE,
+				TI::VALUE_NULL,
+				TI::SYMBOL_BRACES_CLOSE,
+			
+			],
+			TI::KEYWORD_NAMESPACE            => [],
+			TI::KEYWORD_CLASS                => [
+				TI::KEYWORD_FINAL,
+				TI::KEYWORD_ABSTRACT,
+				TI::STRING,
+			],
+			TI::KEYWORD_FINAL                => [
+				TI::KEYWORD_CLASS,
+			],
+			TI::KEYWORD_ABSTRACT             => [
+				TI::KEYWORD_CLASS,
+			],
+			TI::KEYWORD_DATA                 => [],
+			TI::KEYWORD_IF                   => [],
+			TI::KEYWORD_ELSE                 => [],
+			TI::KEYWORD_ELSEIF               => [],
+			TI::KEYWORD_TRY                  => [],
+			TI::KEYWORD_CATCH                => [],
+			TI::KEYWORD_FINALY               => [],
+			TI::KEYWORD_WHEN                 => [
+				TI::SYMBOL_BRACES_OPEN,
+			],
+			TI::KEYWORD_PUBLIC               => [
+				TI::VARIABLE,
+				TI::STRING,
+			],
+			TI::KEYWORD_PROTECTED            => [
+				TI::VARIABLE,
+				TI::STRING,
+			],
+			TI::KEYWORD_PRIVATE              => [
+				TI::VARIABLE,
+				TI::STRING,
+			],
+			TI::KEYWORD_STATIC               => [],
+			TI::KEYWORD_RETURN               => [
+				TI::VARIABLE,
+				TI::KEYWORD_NEW,
+				TI::KEYWORD_THROW,
+				TI::NUMBER,
+				TI::VARIABLE,
+				TI::VALUE_STRING,
+				TI::STRING,
+				TI::VALUE_STRING_ESCAPABLE,
+				TI::KEYWORD_WHEN,
+				TI::SYMBOL_BRACKET_OPEN,
+				TI::SYMBOL_PARENTHESES_OPEN,
+			],
+			TI::KEYWORD_YIELD                => [],
+			TI::KEYWORD_TRAIT                => [],
+			TI::KEYWORD_INTERFACE            => [],
+			TI::KEYWORD_CONST                => [],
+			TI::KEYWORD_FOR                  => [],
+			TI::KEYWORD_FOREACH              => [],
+			TI::KEYWORD_CONTINUE             => [],
+			TI::KEYWORD_BREAK                => [],
+			TI::KEYWORD_WHILE                => [],
+			TI::KEYWORD_DO                   => [],
+			TI::KEYWORD_DIE                  => [],
+			TI::KEYWORD_EXTENDS              => [],
+			TI::KEYWORD_IMPLEMENTS           => [],
+			TI::KEYWORD_USE                  => [],
+			TI::KEYWORD_INSTANCEOF           => [],
+			TI::KEYWORD_NEW                  => [],
+			TI::KEYWORD_PARENT               => [],
+			TI::KEYWORD_SELF                 => [],
+			TI::KEYWORD_THROW                => [],
+			TI::KEYWORD_                     => [],
+			TI::SYMBOL_ASSIGN                => [
+				TI::KEYWORD_NEW,
+				TI::NUMBER,
+				TI::SYMBOL_BRACES_OPEN,
+				TI::SYMBOL_BRACKET_CLOSE,
+			],
+			TI::SYMBOL_PARENTHESES_OPEN      => [
+				TI::TYPE_ARRAY,
+				TI::TYPE_BOOL,
+				TI::TYPE_CALLABLE,
+				TI::TYPE_FLOAT,
+				TI::TYPE_INT,
+				TI::TYPE_MIXED,
+				TI::TYPE_STRING,
+				TI::TYPE_OBJECT,
+				TI::TYPE_BOOL_ARRAY,
+				TI::TYPE_CALLABLE_ARRAY,
+				TI::TYPE_FLOAT_ARRAY,
+				TI::TYPE_INT_ARRAY,
+				TI::TYPE_MIXED_ARRAY,
+				TI::TYPE_STRING_ARRAY,
+				TI::TYPE_OBJECT_ARRAY,
+				TI::SYMBOL_PARENTHESES_CLOSE,
+			],
+			TI::SYMBOL_PARENTHESES_CLOSE     => [
+				TI::SYMBOL_DOUBLE_DOT,
+				TI::SYMBOL_DOUBLE_ARROW,
+				TI::SYMBOL_BRACES_CLOSE,
+				TI::SYMBOL_BRACKET_CLOSE,
+				TI::SYMBOL_COMMA,
+				TI::VALUE_TRUE,
+				TI::VALUE_FALSE,
+				TI::NUMBER,
+				TI::VALUE_NULL,
+				TI::VALUE_STRING_ESCAPABLE,
+				TI::VALUE_STRING
+			],
+			TI::SYMBOL_BRACKET_OPEN          => [
+				TI::VALUE_STRING,
+				TI::VALUE_STRING_ESCAPABLE,
+				TI::STRING,
+				TI::NUMBER,
+			],
+			TI::SYMBOL_BRACKET_CLOSE         => [
+				TI::SYMBOL_BRACES_CLOSE,
+			
+			],
+			TI::SYMBOL_BRACES_OPEN           => [
+				TI::SYMBOL_BRACES_CLOSE,
+				TI::KEYWORD_PUBLIC,
+				TI::KEYWORD_PRIVATE,
+				TI::KEYWORD_PROTECTED,
+				TI::KEYWORD_RETURN,
+				TI::VARIABLE,
+			],
+			TI::SYMBOL_BRACES_CLOSE          => [
+				TI::SYMBOL_BRACES_CLOSE,
+				TI::KEYWORD_PUBLIC,
+				TI::KEYWORD_PRIVATE,
+				TI::KEYWORD_PROTECTED,
+				TI::KEYWORD_RETURN,
+			],
+			TI::SYMBOL_DOUBLE_ARROW          => [
+				TI::SYMBOL_BRACES_OPEN,
+				TI::SYMBOL_BRACKET_OPEN,
+				TI::VARIABLE,
+				TI::KEYWORD_NEW,
+				TI::NUMBER,
+				TI::STRING,
+			
+			],
+			TI::SYMBOL_OBJECT_OPERATOR       => [
+				TI::NUMBER,
+				TI::KEYWORD_NEW,
+				TI::SYMBOL_BRACKET_OPEN,
+				TI::SYMBOL_PARENTHESES_OPEN,
+				TI::VALUE_STRING,
+				TI::STRING,
+				TI::VALUE_STRING_ESCAPABLE,
+				
+				TI::VARIABLE,
+				TI::VALUE_TRUE,
+				TI::VALUE_FALSE,
+				TI::VALUE_NULL,
+				
+			],
+			TI::SYMBOL_DOUBLE_DOT            => [
+				TI::TYPE_ARRAY,
+				TI::TYPE_BOOL,
+				TI::TYPE_CALLABLE,
+				TI::TYPE_FLOAT,
+				TI::TYPE_INT,
+				TI::TYPE_MIXED,
+				TI::TYPE_STRING,
+				TI::TYPE_OBJECT,
+				TI::TYPE_BOOL_ARRAY,
+				TI::TYPE_CALLABLE_ARRAY,
+				TI::TYPE_FLOAT_ARRAY,
+				TI::TYPE_INT_ARRAY,
+				TI::TYPE_MIXED_ARRAY,
+				TI::TYPE_STRING_ARRAY,
+				TI::TYPE_OBJECT_ARRAY,
+			],
+			TI::SYMBOL_COMMA                 => [
+				TI::TYPE_ARRAY,
+				TI::TYPE_BOOL,
+				TI::TYPE_CALLABLE,
+				TI::TYPE_FLOAT,
+				TI::TYPE_INT,
+				TI::TYPE_MIXED,
+				TI::TYPE_STRING,
+				TI::TYPE_OBJECT,
+				TI::TYPE_BOOL_ARRAY,
+				TI::TYPE_CALLABLE_ARRAY,
+				TI::TYPE_FLOAT_ARRAY,
+				TI::TYPE_INT_ARRAY,
+				TI::TYPE_MIXED_ARRAY,
+				TI::TYPE_STRING_ARRAY,
+				TI::TYPE_OBJECT_ARRAY,
+				
+				TI::VALUE_STRING_ESCAPABLE,
+				TI::VALUE_STRING,
+				TI::SYMBOL_BRACKET_CLOSE,
+			],
+			TI::SYMBOL_ELLIPSIS              => [TI::VARIABLE],
+			TI::SYMBOL_DOUBLE_COLON          => [
+				TI::VARIABLE,
+				TI::STRING,
+			],
+			TI::SYMBOL_NEWLINE               => [],
+			TI::SYMBOL_TAB                   => [],
+			TI::OPERATOR_AND                 => [
+				TI::NUMBER,
+				TI::VALUE_STRING,
+				TI::VALUE_STRING_ESCAPABLE,
+			],
+			TI::OPERATOR_OR                  => [
+				TI::NUMBER,
+				TI::VALUE_STRING,
+				TI::VALUE_STRING_ESCAPABLE,
+			],
+			TI::OPERATOR_SPACESHIP           => [
+				TI::NUMBER,
+				TI::VALUE_STRING,
+				TI::VALUE_STRING_ESCAPABLE,
+			],
+			TI::OPERATOR_IS_EQUAL            => [
+				TI::NUMBER,
+				TI::VALUE_STRING,
+				TI::VALUE_STRING_ESCAPABLE,
+			],
+			TI::OPERATOR_IS_GREATER          => [
+				TI::NUMBER,
+				TI::VALUE_STRING,
+				TI::VALUE_STRING_ESCAPABLE,
+			],
+			TI::OPERATOR_IS_GREATER_OR_EQUAL => [
+				TI::NUMBER,
+				TI::VALUE_STRING,
+				TI::VALUE_STRING_ESCAPABLE,
+			],
+			TI::OPERATOR_IS_LOWER            => [
+				TI::NUMBER,
+				TI::VALUE_STRING,
+				TI::VALUE_STRING_ESCAPABLE,
+			],
+			TI::OPERATOR_IS_LOWER_OR_EQUAL   => [
+				TI::NUMBER,
+				TI::VALUE_STRING,
+				TI::VALUE_STRING_ESCAPABLE,
+			],
+			TI::OPERATOR_IS_IDENTICAL        => [
+				TI::NUMBER,
+				TI::VALUE_STRING,
+				TI::VALUE_STRING_ESCAPABLE,
+			],
+			TI::OPERATOR_IS_NOT_EQUAL        => [
+				TI::NUMBER,
+				TI::VALUE_STRING,
+				TI::VALUE_STRING_ESCAPABLE,
+			],
+			TI::OPERATOR_IS_NOT_IDENTICAL    => [
+				TI::NUMBER,
+				TI::VALUE_STRING,
+				TI::VALUE_STRING_ESCAPABLE,
+			],
+			TI::OPERATOR_                    => [],
+			TI::VALUE_STRING                 => [TI::SYMBOL_DOUBLE_ARROW],
+			TI::VALUE_STRING_ESCAPABLE       => [TI::SYMBOL_DOUBLE_ARROW],
+			TI::TYPE_ARRAY                   => [
+				TI::VARIABLE,
+				TI::SYMBOL_BRACES_OPEN,
+			],
+			TI::TYPE_BOOL                    => [
+				TI::VARIABLE,
+				TI::SYMBOL_BRACES_OPEN,
+			],
+			TI::TYPE_CALLABLE                => [
+				TI::VARIABLE,
+				TI::SYMBOL_BRACES_OPEN,
+			],
+			TI::TYPE_FLOAT                   => [
+				TI::VARIABLE,
+				TI::SYMBOL_BRACES_OPEN,
+			],
+			TI::TYPE_INT                     => [
+				TI::VARIABLE,
+				TI::SYMBOL_BRACES_OPEN,
+			],
+			TI::TYPE_MIXED                   => [
+				TI::VARIABLE,
+				TI::SYMBOL_BRACES_OPEN,
+			],
+			TI::TYPE_STRING                  => [
+				TI::VARIABLE,
+				TI::SYMBOL_BRACES_OPEN,
+			],
+			TI::TYPE_OBJECT                  => [
+				TI::VARIABLE,
+				TI::SYMBOL_BRACES_OPEN,
+			],
+			TI::TYPE_BOOL_ARRAY              => [
+				TI::VARIABLE,
+				TI::SYMBOL_BRACES_OPEN,
+			],
+			TI::TYPE_CALLABLE_ARRAY          => [
+				TI::VARIABLE,
+				TI::SYMBOL_BRACES_OPEN,
+			],
+			TI::TYPE_FLOAT_ARRAY             => [
+				TI::VARIABLE,
+				TI::SYMBOL_BRACES_OPEN,
+			],
+			TI::TYPE_INT_ARRAY               => [
+				TI::VARIABLE,
+				TI::SYMBOL_BRACES_OPEN,
+			],
+			TI::TYPE_MIXED_ARRAY             => [
+				TI::VARIABLE,
+				TI::SYMBOL_BRACES_OPEN,
+			],
+			TI::TYPE_STRING_ARRAY            => [
+				TI::VARIABLE,
+				TI::SYMBOL_BRACES_OPEN,
+			],
+			TI::TYPE_OBJECT_ARRAY            => [
+				TI::VARIABLE,
+				TI::SYMBOL_BRACES_OPEN,
+			],
+			
+			TI::VALUE_TRUE  => [
+				TI::SYMBOL_OBJECT_OPERATOR,
+			],
+			TI::VALUE_FALSE => [
+				TI::SYMBOL_OBJECT_OPERATOR,
+			],
+		
+		];
+	}
+}

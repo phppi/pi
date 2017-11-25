@@ -25,39 +25,7 @@ PROJECT_NAME=pi-compiler
 # Docker tools checkout
 # -----------------------------------------
 
-if [ ! -e $DIR/_docker/tools/functions.sh ]; then
-	echo "Docker-Tools missing!"
-	echo "Download docker-tools"
-	git clone https://gitlab.com/Luky/docker.git $DIR/_docker/tools >> $DIR/docker.sh.log 2>&1
-fi
-
-if [ ! -e $DIR/_docker/tools/functions.sh ]; then
-	echo "Docker-Tools can't be downloaded"
-	exit 1
-fi
-
-source $DIR/_docker/tools/functions.sh
-
-if [[ $DCKSHL_VERSION != $DOCKER_TOOLS_VERSION ]]; then
-	cd $DIR/_docker/tools
-	dockerShellSelfUpdate $DIR $DOCKER_TOOLS_VERSION
-	cd $DIR
-	source $DIR/_docker/tools/functions.sh
-fi
-
-# -----------------------------------------
-# Arg's
-# -----------------------------------------
-OPT_FOLLOW=1
-OPT_PRODUCTION=0
-
-# -----------------------------------------
-# Base Actions
-# -----------------------------------------
-#copyIdea
-
-initAction $ACTION $*
-actionExec $ACTION $*
+source ./_injector.sh
 
 # -----------------------------------------
 # Build Action

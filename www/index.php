@@ -10,6 +10,14 @@ use PhpParser\ParserFactory;
 
 $source = file_get_contents(__DIR__ . '/../example/MyLittleClass.phpp');
 
+$tokenizer = new \PiCompiler\Tokenizer();
+
+$stream = $tokenizer->source($source);
+
+$parser = new \PiCompiler\Parser();
+$parser->parse($stream);
+
+die;
 
 //$tokens = $parser->parse($source);
 $phpTokens = token_get_all($source);
@@ -22,7 +30,7 @@ $phpTokens = array_filter($phpTokens, function ($item) {
 
 $phpTokens = array_values($phpTokens);
 
-$parser = new \PiCompiler\Parser();
+$parser = new \PiCompiler\OldParser();
 
 $parser->parse($phpTokens);
 
@@ -35,7 +43,7 @@ const PI_PARENTHESES_OPEN = 21010;
 const PI_PARENTHESES_CLOSE = 21011;
 
 
-$tokens = [];
+$stream = [];
 
 $count = count ($phpTokens);
 
@@ -50,7 +58,7 @@ for ($i = 0; $i < $count; $i++) {
 	
 	if ($type === T_OPEN_TAG) {
 		if ($nextType === T_STRING && $nextValue === 'p') {
-			$tokens[] = [
+			$stream[] = [
 				PI_OPEN_TAG,
 				'<?p',
 				$line
@@ -63,11 +71,11 @@ for ($i = 0; $i < $count; $i++) {
 		}
 	}
 	
-	$tokens[] = [
+	$stream[] = [
 		is_int($type) ? token_name($type): $type,
 		$value,
 		$line
 	];
 }
 
-dump($tokens);
+dump($stream);
