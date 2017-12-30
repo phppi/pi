@@ -4,9 +4,14 @@ namespace PiCompiler;
 
 use Nette\Tokenizer\Stream;
 use Nette\Tokenizer\Token;
+use PiCompiler\Token\Operator\IsIdenticalOperatorType;
 use PiCompiler\Token\Snippet\ClassToken;
-use PiCompiler\Token\Snippet\SnippetToken;
 use PiCompiler\Token\TokenInterface as TI;
+use PiCompiler\Token\Type\StringToken;
+use PiCompiler\Token\Value\IntValueToken;
+use PiCompiler\Token\ValueToken;
+use PiCompiler\Token\VariableToken;
+use Tracy\Debugger;
 
 class Parser
 {
@@ -22,6 +27,8 @@ class Parser
 	
 	public function parse(Stream $stream)
 	{
+		Debugger::$maxDepth = 10;
+		
 		$mapValidNext = MapValidNext::getMap();
 		
 		$stream->reset();
@@ -38,28 +45,100 @@ class Parser
 		
 		\dump('================');
 		
-		$progress = [];
+		// Braces
+		$bracesRecursiveTree = new RecursiveTree(
+			function (Token $token) {
+				return $token->type === TI::SYMBOL_BRACES_OPEN;
+			},
+			function (Token $token) {
+				return $token->type === TI::SYMBOL_BRACES_CLOSE;
+			}
+		);
 		
-		while ($stream->isNext()) {
-//			if ($this->skip > 0) {
-//				$stream->nextToken();
-//				\dump('skip');
-//				continue;
-//			}
-			
-			$progress[] = $this->processToken(
-				$stream->nextToken(),
-				$stream
-			);
-			
-			\dump($progress);
-		}
+		$bracesStream = $bracesRecursiveTree->iterate($stream);
+		
+		$zavorkyStream = $this->iterateRecursiveStream(
+			$bracesStream,
+			function (Stream $stream) {
+				$recursiveTree = new RecursiveTree(
+					function ($token) {
+						return $token instanceof Token && $token->type === TI::SYMBOL_PARENTHESES_OPEN;
+					},
+					function ($token) {
+						return $token instanceof Token && $token->type === TI::SYMBOL_PARENTHESES_CLOSE;
+					}
+				);
+				
+				return $recursiveTree->iterate($stream);
+			}
+		);
+		
+		$bracketStream = $this->iterateRecursiveStream(
+			$zavorkyStream,
+			function (Stream $stream) {
+				$recursiveTree = new RecursiveTree(
+					function ($token) {
+						return $token instanceof Token && $token->type === TI::SYMBOL_BRACKET_OPEN;
+					},
+					function ($token) {
+						return $token instanceof Token && $token->type === TI::SYMBOL_BRACKET_CLOSE;
+					}
+				);
+				
+				return $recursiveTree->iterate($stream);
+			}
+		);
+		
+		dump($bracketStream);
+		
+		die;
 	}
 	
-	public function processToken(Token $token, Stream $stream)
+	public function iterateRecursiveStream(Stream $stream, callable $callable)
+	{
+		$temp = [];
+		
+		$stream = $callable($stream);
+		
+		while ($stream->isNext()) {
+			$token = $stream->nextToken();
+			
+			if ($token instanceof Stream) {
+				$temp[] = $this->iterateRecursiveStream($token, $callable);
+			} else {
+				$temp[] = $token;
+			}
+		}
+		
+		return new Stream($temp);
+	}
+	
+	public function processStream(Stream $stream)
+	{
+		\dump('process stream');
+		
+		$temp = [];
+		
+		while ($stream->isNext()) {
+			$token = $stream->nextToken();
+			
+			if ($token instanceof Token) {
+				$temp[] = $this->processToken($token, $stream);
+			} elseif ($token instanceof Stream) {
+				$temp[] = $this->processStream($token);
+			}
+			
+			\dump($temp);
+		}
+		
+		return $temp;
+	}
+	
+	public function processToken(Token $token, Stream $stream, ?Token $previous = null)
 	{
 		if ($token->type === TI::KEYWORD_CLASS) {
 			$name = $stream->nextToken();
+
 //			$this->skip++;
 			
 			return new ClassToken($name->value);
@@ -70,28 +149,36 @@ class Parser
 			|| $token->type === TI::KEYWORD_PROTECTED
 			|| $token->type === TI::KEYWORD_PRIVATE
 		) {
-			$modifed = $this->processToken($stream->nextToken(), $stream);
+			$modifed = $this->processToken($stream->nextToken(), $stream, $token);
 			$modifed->modify($token);
-			
+
 //			$this->skip++;
 			
 			return $modifed;
 		} elseif (
 			$token->type === TI::SYMBOL_BRACES_OPEN
 		) {
-			$stream->nextToken();
-//			$this->skip++;
+			throw new \LogicException('should not be there');
+		} elseif ($token->type === TI::OPERATOR_IS_IDENTICAL) {
+			return new IsIdenticalOperatorType($previous);
+		} elseif ($token->type === TI::STRING) {
+			return new ValueToken($token->value, new StringToken());
+		} elseif ($token->type === TI::NUMBER) {
+			return new IntValueToken($token->value);
+		} elseif ($token->type === TI::VARIABLE) {
+			$next = $stream->nextToken();
 			
-			$snippetToken = new SnippetToken();
+			$vt = new VariableToken($token->value);
 			
-			$snippetToken->addChild(
+			if ($next->type === TI::SYMBOL_ASSIGN) {
 			
-			);
+			}
 			
-			return $snippetToken;
+			return $vt;
 		} else {
+			\dump('<<<<<<<<<<<<<<<<<<<<<');
 			\dump($token);
-			
+			\dump('not defined parseToken');
 			die;
 		}
 		

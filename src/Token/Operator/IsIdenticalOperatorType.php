@@ -5,4 +5,5 @@ namespace PiCompiler\Token\Operator;
 class IsIdenticalOperatorType implements OperatorInterface
 {
 	use TOperator;
+
 }

@@ -53,7 +53,7 @@ class MapValidNext
 				TI::KEYWORD_PUBLIC,
 				TI::KEYWORD_PROTECTED,
 				TI::KEYWORD_PRIVATE,
-				TI::SYMBOL_OBJECT_OPERATOR,
+				TI::SYMBOL_DOUBLE_ARROW,
 				
 				TI::VARIABLE,
 				TI::VALUE_TRUE,
@@ -381,10 +381,10 @@ class MapValidNext
 			],
 			
 			TI::VALUE_TRUE  => [
-				TI::SYMBOL_OBJECT_OPERATOR,
+				TI::SYMBOL_DOUBLE_ARROW,
 			],
 			TI::VALUE_FALSE => [
-				TI::SYMBOL_OBJECT_OPERATOR,
+				TI::SYMBOL_DOUBLE_ARROW,
 			],
 		
 		];

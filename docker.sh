@@ -16,9 +16,7 @@ DOCKER_TOOLS_VERSION=1.19.3
 # Config Variables
 # -----------------------------------------
 
-DOCKER_COMPOSE_FILE=$DIR/docker-compose.yml
-
-BASE_IP=172.21.98
+NGINX_IP=172.21.98.20
 PROJECT_NAME=pi-compiler
 
 # -----------------------------------------
@@ -35,30 +33,25 @@ buildAction() {
 	docker build $DIR/_docker/php --build-arg DOCKER_UID=$UID --tag $PROJECT_NAME-php
 }
 
-
-_dockerCompose() {
-	docker-compose -f $DOCKER_COMPOSE_FILE $*
-}
-
 if [[ $ACTION == "build" ]]
 then
 	buildAction
 
 
 elif [[ $ACTION == "run" ]]; then
-	_dockerCompose stop
+	docker-compose stop
 
 	injector nginx root
 	injector php root
 
 	buildAction
 
-	_dockerCompose up -d
+	docker-compose up -d
 
 	docker network disconnect intranet $PROJECT_NAME-nginx
-	docker network connect intranet $PROJECT_NAME-nginx --ip $BASE_IP.20
+	docker network connect intranet $PROJECT_NAME-nginx --ip $NGINX_IP
 
-	_dockerCompose logs --tail="30" --follow
+	docker-compose logs --tail="30" --follow
 
 elif [[ $ACTION == 'console' ]]; then
 	docker exec -it $PROJECT_NAME-php php bin/pi-compiler.php $*

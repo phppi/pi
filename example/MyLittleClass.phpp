@@ -20,12 +20,12 @@ abstract class MyLittleClass {
 
 	private switcher(int $condition): int {
 		return when {
-			$condition === 3 -> 3
-			$condition === 4 -> 5
-			$condition === 6 -> 4
-			$condition === 8 -> 10
-			$condition > 10  -> $this->getNumber()
-			true 			 -> 0
+			$condition === 3 => 3
+			$condition === 4 => 5
+			$condition === 6 => 4
+			$condition === 8 => 10
+			$condition > 10  => $this->getNumber()
+			true 			 => 0
 		}
 	}
 
