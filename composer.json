@@ -18,7 +18,9 @@
         "slevomat/coding-standard": "^4.0",
         "nikic/php-parser": "^4.0",
         "nette/utils": "^2.4",
-        "nette/tokenizer": "^2.3"
+        "nette/tokenizer": "^2.3",
+        "nette/neon": "^2.4",
+        "nette/bootstrap": "^2.4"
     },
     "require-dev": {
         "codeception/codeception": "^2.3"

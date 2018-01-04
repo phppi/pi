@@ -1,0 +1,9 @@
+
+compiler:
+	presets:
+		spring-2018:
+			description: Preset defined as base language specification for spring 2018.
+			stages:
+				1:
+					- PiCompiler\Plugin\Stage1\DefaultTokenizerPatternPlugin
+

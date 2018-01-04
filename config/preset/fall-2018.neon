@@ -1,0 +1,18 @@
+
+compiler:
+	presets:
+		fall-2018:
+			stable: false
+			description: Preset defined as base language specification for fall 2018.
+			stages:
+				1:
+					- PiCompiler\Plugin\Stage1\DefaultTokenizerPatternPlugin
+					- PiCompiler\Plugin\Stage1\DefaultTokenizerPatternPlugin
+					- PiCompiler\Plugin\Stage1\DefaultTokenizerPatternPlugin
+					- PiCompiler\Plugin\Stage1\DefaultTokenizerPatternPlugin
+					- PiCompiler\Plugin\Stage1\DefaultTokenizerPatternPlugin
+					- PiCompiler\Plugin\Stage1\DefaultTokenizerPatternPlugin
+					- PiCompiler\Plugin\Stage1\DefaultTokenizerPatternPlugin
+					- PiCompiler\Plugin\Stage1\DefaultTokenizerPatternPlugin
+					- PiCompiler\Plugin\Stage1\DefaultTokenizerPatternPlugin
+

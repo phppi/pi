@@ -12,3 +12,7 @@ docker.sh.log
 
 /tests/**/_output
 /tests/**/_generated
+
+
+log
+temp
